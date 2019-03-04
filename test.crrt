@@ -1,2 +1,100 @@
-int x;
-int y;
+// no wrong syntax error
+// only stat list & var list can be empty
+// int x;
+// int y;
+
+// decl -> varDecl;
+int a;
+bool b;
+void c;
+
+// decl -> structDecl -> structBody 
+struct structDecl1{int a; bool b; void c;};
+struct structDecl2{int a;};
+// decl -> structDecl -> structBody -> varDecl -> struct
+struct structDecl3{bool b; struct structDecl2;};
+// decl -> fnDecl -> formals;
+void fnDecl1()
+int fnDecl2(int a, bool b){
+	int m;
+	//exp lesseq exp
+	if(a <= m) {
+		b = true;
+	}
+	//GREATEREQ
+	if(a >= m){
+		b = false;
+	}
+	//MINUS term
+	while(-m){
+		//term -> STRINGLITERAL
+		cout << "STRINGLITERAL";
+	}
+	//exp -> fncall
+	if(fnDecl1){
+		//varlist empty
+		//stmtlist empty
+	}
+	return;
+}
+// decl -> fnDecl -> formals -> formalDecl -> id;
+// decl -> fnDecl -> fnBody
+bool fnDecl3(int a, bool b, void c) {
+	// varDeclList
+	int d;
+	bool e;
+	void f;
+
+	//TODO: assignExp
+	a = d;
+	d = structDecl1.a;
+	structDecl3.structDecl2.a = a + d + structDecl1.a;
+
+	// stmtlist stmt
+	d++;
+	structDecl1.a++;
+	structDecl3.structDecl2.a++;
+	d--;
+	structDecl1.a--;
+	structDecl3.structDecl2.a--;
+
+	// read
+	cin >> d;
+	//write
+	cout << a;
+
+	//TODO: cout write exp;
+	// if 
+	if (a - d) {
+		d++;
+		structDecl1.a++;
+	}
+
+	if (a * d) {
+		int g;
+		d++;
+		structDecl1.a++;
+	} else {
+		int h;
+		d--;
+		structDecl1.a--;
+	}
+	// stmt -> while
+	while (a / d) {
+		int i;
+		d++;
+		structDecl1.a++;
+	}
+	// stmt -> repeat 
+	repeat(!a) {int j; while (b && e) {int i; d++; structDecl1.a++;}}
+
+	//funcx call
+	fnDecl1();
+	fnDecl2(d, e);
+	fnDecl3(b || e, b == e, b != e);
+	// exp->term->(exp)
+	return (b < e);
+ }
+
+
+// decl -> structDecl;
