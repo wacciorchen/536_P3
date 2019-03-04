@@ -127,6 +127,7 @@ class ProgramNode extends ASTnode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+		addIndent(p, indent);
         myDeclList.unparse(p, indent);
     }
 
@@ -161,6 +162,19 @@ class FormalsListNode extends ASTnode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+		p.print("(");
+		Iterator it = myFormals.iterator();
+        try {
+            while (it.hasNext()) {
+                ((FormalDeclNode)it.next()).unparse(p, indent);
+				if (it.hasNext())
+					p.print(", ");
+            }
+        } catch (NoSuchElementException ex) {
+            System.err.println("unexpected NoSuchElementException in FormalsListNode.print");
+            System.exit(-1);
+        }
+		p.print(")");
     }
 
     // list of kids (FormalDeclNodes)
@@ -174,6 +188,13 @@ class FnBodyNode extends ASTnode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+		p.println("{");
+		if(myDeclList != null)
+			myDeclList.unparse(p, indent + 1);
+		if(myStmtList != null)
+			myStmtList.unparse(p, indent + 1);
+		addIndent(p ,indent);
+		p.println("}");
     }
 
     // 2 kids
@@ -193,7 +214,7 @@ class StmtListNode extends ASTnode {
                 ((StmtNode)iterator.next()).unparse(p, indent);
 			}
         } catch (NoSuchElementException ex) {
-            System.err.println("unexpected NoSuchElementException in ExpListNode.print");
+            System.err.println("unexpected NoSuchElementException in StmtListNode.print");
             System.exit(-1);
         }
     }
@@ -268,6 +289,13 @@ class FnDeclNode extends DeclNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+		addIndent(p, indent);
+		myType.unparse(p, 0);
+		p.print(" ");
+		myId.unparse(p, 0);
+		myFormalsList.unparse(p, indent);
+		p.print(" ");
+		myBody.unparse(p, indent);
     }
 
     // 4 kids
@@ -284,6 +312,10 @@ class FormalDeclNode extends DeclNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+		myType.unparse(p, 0);
+		p.print(" ");
+		myId.unparse(p, 0);
+		
     }
 
     // 2 kids
@@ -298,6 +330,14 @@ class StructDeclNode extends DeclNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+		addIndent(p, indent);
+		p.print("struct ");
+		myId.unparse(p, 0);
+		p.println(" {");
+		myDeclList.unparse(p, indent + 1);
+		addIndent(p, indent);
+		p.println("};");
+		
     }
 
     // 2 kids
@@ -345,6 +385,8 @@ class StructNode extends TypeNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+		p.print("struct ");
+		myId.unparse(p, 0);
     }
 	
 	// 1 kid
@@ -366,7 +408,7 @@ class AssignStmtNode extends StmtNode {
     public void unparse(PrintWriter p, int indent) {
 		addIndent(p, indent);
 		myAssign.unparse(p, 0);
-		p.print(";");
+		p.println(";");
     }
 
     // 1 kid
@@ -381,7 +423,7 @@ class PostIncStmtNode extends StmtNode {
     public void unparse(PrintWriter p, int indent) {
 		addIndent(p, indent);
 		myExp.unparse(p, 0);
-		p.print("++;");
+		p.println("++;");
     }
 
     // 1 kid
@@ -396,7 +438,7 @@ class PostDecStmtNode extends StmtNode {
     public void unparse(PrintWriter p, int indent) {
 		addIndent(p, indent);
 		myExp.unparse(p, 0);
-		p.print("--;");
+		p.println("--;");
     }
 
     // 1 kid
@@ -412,7 +454,7 @@ class ReadStmtNode extends StmtNode {
 		addIndent(p, indent);
 		p.print("cin >> ");
 		myExp.unparse(p, 0);
-		p.print(";");
+		p.println(";");
     }
 
     // 1 kid (actually can only be an IdNode or an ArrayExpNode)
@@ -428,7 +470,7 @@ class WriteStmtNode extends StmtNode {
 		addIndent(p, indent);
 		p.print("cout << ");
 		myExp.unparse(p, 0);
-		p.print(";");
+		p.println(";");
     }
 
     // 1 kid
@@ -549,6 +591,9 @@ class CallStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+		addIndent(p, indent);
+		myCall.unparse(p, 0);
+		p.println(";");
     }
 
     // 1 kid
@@ -707,6 +752,7 @@ class CallExpNode extends ExpNode {
 
     // ** unparse **
     public void unparse(PrintWriter p, int indent) {
+		addIndent(p, indent);
 		myId.unparse(p, 0);
 		p.print("(");
 		myExpList.unparse(p, 0);
@@ -749,7 +795,7 @@ class UnaryMinusNode extends UnaryExpNode {
 
     public void unparse(PrintWriter p, int indent) {		
 		p.print("(-");
-		myExp1.unparse(p, 0);
+		myExp.unparse(p, 0);
 		p.print(")");
     }
 }
@@ -761,7 +807,7 @@ class NotNode extends UnaryExpNode {
 
     public void unparse(PrintWriter p, int indent) {
 		p.print("(!");
-		myExp1.unparse(p, 0);
+		myExp.unparse(p, 0);
 		p.print(")");
     }
 }

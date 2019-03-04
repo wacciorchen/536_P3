@@ -76,7 +76,16 @@ terminal                ASSIGN;
 non terminal ProgramNode		program;
 non terminal LinkedList			declList;
 non terminal DeclNode			decl;
+non terminal LinkedList			varDeclList;
 non terminal VarDeclNode		varDecl;
+non terminal FnDeclNode			fnDecl;
+non terminal StructDeclNode		structDecl;
+non terminal LinkedList			structBody
+non terminal FormalsListNode	formals;
+non terminal LinkedList			formalsList;
+non terminal FormalDeclNode		formalDecl;
+non terminal FnBodyNode			fnBody;
+non terminal LinkedList			stmtList;
 non terminal StmtNode			stmt;
 non terminal AssignNode			assignExp;
 non terminal ExpNode			exp;
@@ -96,8 +105,8 @@ precedence left AND;
 precedence nonassoc EQUALS, NOTEQUALS, LESS, GREATER, LESSEQ, GREATEREQ;
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE;
-precedence left DOT;
 precedence nonassoc NOT;
+precedence left DOT;
 
 
 start with program;
@@ -114,7 +123,7 @@ program         ::= declList: d
 
 declList        ::= declList:dl decl:d
                 {:	dl.addLast(d);
-                   RESULT = dl;
+					RESULT = dl;
                 :}
                 | /* epsilon */
                 {:	RESULT = new LinkedList<DeclNode>();
@@ -131,10 +140,81 @@ decl            ::= varDecl:v
                 {:	RESULT = s;
                 :}
                 ;
+				
+varDeclList     ::= varDeclList:vl varDecl:v
+				{:	vl.addLast(v);
+					RESULT = vl;
+				:}
+                | /* epsilon */
+				{:	RESULT = new LinkedList<VarDeclNode>();
+				:}
+                ;
 
 varDecl         ::= type:t id:i SEMICOLON
                 {:	RESULT = new VarDeclNode(t, i, VarDeclNode.NOT_STRUCT);
                 :}
+				| STRUCT id:s id:i SEMICOLON
+				{:	RESULT = new VarDeclNode(new StructNode(s), i, 0);
+                :}
+                ;
+				
+fnDecl          ::= type:t id:i formals:f fnBody:b
+				{:	RESULT = new FnDeclNode(t, i,f,b);
+				:}
+                ;
+				
+structDecl      ::= STRUCT id:i LCURLY structBody:s RCURLY SEMICOLON
+				{:	RESULT = new StructDeclNode(i, new DeclListNode(s));
+				:}
+                ;
+				
+structBody      ::= structBody:s varDecl:v
+				{:	s.addLast(v);
+					RESULT = s;
+				:}
+                | varDecl:v
+				{:	LinkedList<VarDeclNode> s = new LinkedList<VarDeclNode>();
+					s.addLast(v);
+					RESULT = s;
+				:}
+                ;
+				
+formals         ::= LPAREN RPAREN
+				{:	RESULT = new FormalsListNode(new LinkedList<FormalDeclNode>());
+				:}
+                | LPAREN formalsList:fl RPAREN
+				{:	RESULT = new FormalsListNode(fl);
+				:}
+                ;
+				
+formalsList     ::= formalDecl:f
+				{:	LinkedList<FormalDeclNode> fl = new LinkedList<FormalDeclNode>();
+					fl.addFirst(f);
+					RESULT = fl;
+				:}
+                | formalDecl:f COMMA formalsList:fl
+				{:	fl.addFirst(f);
+					RESULT = fl;
+				:}
+                ;
+				
+formalDecl      ::= type:t id:i        // note: no struct parameters
+				{:	RESULT = new FormalDeclNode(t, i);
+				:}
+                ;
+				
+fnBody          ::= LCURLY varDeclList:v stmtList:s RCURLY
+				{:	RESULT = new FnBodyNode(new DeclListNode(v), new StmtListNode(s));
+				:}
+                ;
+				
+stmtList        ::= stmtList:sl stmt:s
+				{:	sl.addLast(s);
+					RESULT = sl;
+				:}
+                | /* epsilon */
+				{:	RESULT = new LinkedList<StmtNode>();
+				:}
                 ;
 				
 stmt            ::= assignExp:e SEMICOLON
