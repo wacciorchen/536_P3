@@ -12,9 +12,9 @@ void c;
 struct structDecl1{int a; bool b; void c;};
 struct structDecl2{int a;};
 // decl -> structDecl -> structBody -> varDecl -> struct
-struct structDecl3{bool b; struct structDecl2;};
+struct structDecl3{bool b; struct structDecl2 as;};
 // decl -> fnDecl -> formals;
-void fnDecl1()
+void fnDecl1(){}
 int fnDecl2(int a, bool b){
 	int m;
 	//exp lesseq exp
@@ -44,19 +44,21 @@ bool fnDecl3(int a, bool b, void c) {
 	int d;
 	bool e;
 	void f;
-
+	struct structDecl1 g1;
+	struct structDecl2 g2;
+	struct structDecl3 g3;
 	//TODO: assignExp
 	a = d;
-	d = structDecl1.a;
-	structDecl3.structDecl2.a = a + d + structDecl1.a;
+	d = g1.a;
+	g3.as.a = a + d + g1.a;
 
 	// stmtlist stmt
 	d++;
-	structDecl1.a++;
-	structDecl3.structDecl2.a++;
+	g1.a++;
+	g3.as.a++;
 	d--;
-	structDecl1.a--;
-	structDecl3.structDecl2.a--;
+	g1.a--;
+	g3.as.a--;
 
 	// read
 	cin >> d;
@@ -67,26 +69,26 @@ bool fnDecl3(int a, bool b, void c) {
 	// if 
 	if (a - d) {
 		d++;
-		structDecl1.a++;
+		g1.a++;
 	}
 
 	if (a * d) {
 		int g;
 		d++;
-		structDecl1.a++;
+		g1.a++;
 	} else {
 		int h;
 		d--;
-		structDecl1.a--;
+		g1.a--;
 	}
 	// stmt -> while
 	while (a / d) {
 		int i;
 		d++;
-		structDecl1.a++;
+		g1.a++;
 	}
 	// stmt -> repeat 
-	repeat(!a) {int j; while (b && e) {int i; d++; structDecl1.a++;}}
+	repeat(!a) {int j; while (b && e) {int i; d++; g1.a++;}}
 
 	//funcx call
 	fnDecl1();
