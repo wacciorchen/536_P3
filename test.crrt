@@ -65,7 +65,7 @@ bool fnDecl3(int a, bool b, void c) {
 	//write
 	cout << a;
 	// exp = assignExp
-	cout << g1.a;
+	cout << g1.a = a + d;
 	//TODO: cout write exp;
 	// if 
 	if (a - d) {
