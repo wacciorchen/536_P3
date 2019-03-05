@@ -1,0 +1,82 @@
+int a;
+bool b;
+void c;
+struct structDecl1 {
+ int a;
+ bool b;
+ void c;
+};
+struct structDecl2 {
+ int a;
+};
+struct structDecl3 {
+ bool b;
+ struct structDecl2 as;
+};
+void fnDecl1() {
+}
+int fnDecl2(int a, bool b) {
+ int m;
+ if ((a <= m)) {
+  b = true;
+ }
+ if ((a >= m)) {
+  b = false;
+ }
+ while ((-m)) {
+  cout << "STRINGLITERAL";
+ }
+ if (fnDecl1) {
+ }
+ return;
+}
+bool fnDecl3(int a, bool b, void c) {
+ int d;
+ bool e;
+ void f;
+ struct structDecl1 g1;
+ struct structDecl2 g2;
+ struct structDecl3 g3;
+ a = d;
+ d = g1.a;
+ g3.as.a = ((a + d) + g1.a);
+ d++;
+ g1.a++;
+ g3.as.a++;
+ d--;
+ g1.a--;
+ g3.as.a--;
+ cin >> d;
+ cout << a;
+ if ((a - d)) {
+  d++;
+  g1.a++;
+ }
+ if ((a * d)) {
+  int g;
+  d++;
+  g1.a++;
+ }
+ else {
+  int h;
+  d--;
+  g1.a--;
+ }
+ while ((a / d)) {
+  int i;
+  d++;
+  g1.a++;
+ }
+ repeat ((!a)) {
+  int j;
+  while ((b && e)) {
+   int i;
+   d++;
+   g1.a++;
+  }
+ }
+ fnDecl1();
+ fnDecl2(d, e);
+ fnDecl3((b || e), (b == e), (b != e));
+ return (b < e);
+}
