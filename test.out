@@ -48,6 +48,7 @@ bool fnDecl3(int a, bool b, void c) {
  g3.as.a--;
  cin >> d;
  cout << a;
+ cout << g1.a = (a + d);
  if ((a - d)) {
   d++;
   g1.a++;
