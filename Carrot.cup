@@ -28,8 +28,9 @@ public void syntax_error(Symbol currToken) {
 terminal                INT;
 terminal                BOOL;
 terminal                VOID;
-terminal                TRUE;
-terminal                FALSE;
+//TODO: add Token val
+terminal TokenVal       TRUE;
+terminal TokenVal       FALSE;
 terminal                STRUCT;
 terminal                CIN;
 terminal                COUT;
@@ -80,7 +81,8 @@ non terminal LinkedList			varDeclList;
 non terminal VarDeclNode		varDecl;
 non terminal FnDeclNode			fnDecl;
 non terminal StructDeclNode		structDecl;
-non terminal LinkedList			structBody
+//TODO : add semicoln
+non terminal LinkedList			structBody;
 non terminal FormalsListNode	formals;
 non terminal LinkedList			formalsList;
 non terminal FormalDeclNode		formalDecl;
